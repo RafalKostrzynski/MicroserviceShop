@@ -20,6 +20,10 @@ spring:
           uri: lb://PRODUCT-SERVICE
           predicates:
             - Path=/v1/api/product/**
+        - id: authentication-service
+          uri: lb://AUTHENTICATION-SERVICE
+          predicates:
+            - Path=/v1/api/auth/**
   security:
     user:
       name: admin
