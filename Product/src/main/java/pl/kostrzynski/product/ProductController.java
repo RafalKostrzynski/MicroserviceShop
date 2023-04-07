@@ -3,6 +3,7 @@ package pl.kostrzynski.product;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
@@ -17,7 +18,7 @@ class ProductController {
     private final ProductService productService;
 
     @GetMapping("/price")
-    Mono<String> getPrice(List<String> names) {
+    Mono<String> getPrice(@RequestParam List<String> names) {
 
         return this.productService.getPurchasePriceByNames(names)
                 .map(BigDecimal::toString);

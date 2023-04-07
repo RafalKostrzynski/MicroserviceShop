@@ -6,6 +6,7 @@
     <modules>
         <module>Product</module>
         <module>Discovery</module>
+        <module>Gateway</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

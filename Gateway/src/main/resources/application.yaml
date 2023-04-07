@@ -1,0 +1,32 @@
+server:
+  port: 8080
+  ssl:
+    enabled: true
+    key-store: src/main/resources/keys/bootsecurity2.p12
+    key-store-password: changeit
+    key-store-type: PKCS12
+    keyAlias: shop
+
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: product-service
+          uri: lb://PRODUCT-SERVICE
+          predicates:
+            - Path=/v1/api/product/**
+  security:
+    user:
+      name: admin
+      password: admin
+
+eureka:
+  client:
+    registerWithEureka: false
+    serviceUrl:
+      defaultZone: https://admin:admin@localhost:8761/eureka
