@@ -40,7 +40,11 @@ public class JwtService {
 
     public Authentication getAuthentication(final String token) {
 
-        return new UsernamePasswordAuthenticationToken(token, token, Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")));
+        return new UsernamePasswordAuthenticationToken(
+                this.resolveUsername(token),
+                token,
+                Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"))
+        );
     }
 
     public boolean validateToken(String token) {
@@ -48,6 +52,12 @@ public class JwtService {
         return getClaims(token)
                 .map(claims -> !claims.getExpiration().before(new Date()))
                 .orElse(false);
+    }
+
+    private String resolveUsername(final String token) {
+        return this.getClaims(token)
+                .map(Claims::getSubject)
+                .orElseThrow();
     }
 
     private Optional<Claims> getClaims(final String jwt) {

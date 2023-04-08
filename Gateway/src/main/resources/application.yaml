@@ -24,10 +24,10 @@ spring:
           uri: lb://AUTHENTICATION-SERVICE
           predicates:
             - Path=/v1/api/auth/**
-  security:
-    user:
-      name: admin
-      password: admin
+        - id: order-service
+          uri: lb://ORDER-SERVICE
+          predicates:
+            - Path=/v1/api/order/**
 
 eureka:
   client:
