@@ -1,6 +1,7 @@
 package pl.kostrzynski.courier;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,10 +18,11 @@ class CourierController {
     private final ShipmentCourierMapper mapper;
 
     @GetMapping
-    Mono<ShipmentCourierViewModel> getShipmentCourier(@RequestParam final String courier) {
+    Mono<ResponseEntity<ShipmentCourierViewModel>> getShipmentCourier(@RequestParam final String courier) {
 
         return this.courierService.getShipmentCourierByCourier(Courier.valueOf(courier.toUpperCase()))
-                .map(this.mapper::toViewModel);
+                .map(this.mapper::toViewModel)
+                .map(ResponseEntity::ok);
     }
 
 }

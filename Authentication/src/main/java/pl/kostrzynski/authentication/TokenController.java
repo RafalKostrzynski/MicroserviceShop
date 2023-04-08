@@ -1,5 +1,6 @@
 package pl.kostrzynski.authentication;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.security.core.context.SecurityContext;
@@ -13,16 +14,18 @@ import reactor.core.publisher.Mono;
 class TokenController {
 
     @PostMapping
-    Mono<AuthenticatedUser> authenticate() {
+    Mono<ResponseEntity<AuthenticatedUser>> authenticate() {
 
         return ReactiveSecurityContextHolder.getContext()
                 .map(SecurityContext::getAuthentication)
-                .map(e -> new AuthenticatedUser(
-                                e.getName(),
-                                e.getAuthorities()
-                                        .stream()
-                                        .map(GrantedAuthority::getAuthority)
-                                        .toList()
+                .map(e -> ResponseEntity.ok(
+                                new AuthenticatedUser(
+                                        e.getName(),
+                                        e.getAuthorities()
+                                                .stream()
+                                                .map(GrantedAuthority::getAuthority)
+                                                .toList()
+                                )
                         )
                 );
     }
