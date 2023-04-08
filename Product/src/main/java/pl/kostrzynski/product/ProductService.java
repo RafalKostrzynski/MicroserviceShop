@@ -10,13 +10,13 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ProductService {
+class ProductService {
 
     private final ProductRepository productRepository;
 
     private final ProductMapper productMapper;
 
-    public Mono<BigDecimal> getPurchasePriceByNames(final List<String> productNames) {
+    Mono<BigDecimal> getPurchasePriceByNames(final List<String> productNames) {
 
         return this.getProductsByNames(productNames)
                 .distinct()

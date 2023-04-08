@@ -9,6 +9,7 @@
         <module>Gateway</module>
         <module>Authentication</module>
         <module>Order</module>
+        <module>Shipment</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

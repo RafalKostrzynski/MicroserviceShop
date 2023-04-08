@@ -18,7 +18,7 @@ class ProductController {
     private final ProductService productService;
 
     @GetMapping("/price")
-    Mono<String> getPrice(@RequestParam List<String> names) {
+    Mono<String> getPrice(@RequestParam final List<String> names) {
 
         return this.productService.getPurchasePriceByNames(names)
                 .map(BigDecimal::toString);
