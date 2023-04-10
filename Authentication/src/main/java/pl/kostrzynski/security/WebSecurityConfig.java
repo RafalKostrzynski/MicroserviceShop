@@ -30,7 +30,7 @@ class WebSecurityConfig {
                 .httpBasic(ServerHttpSecurity.HttpBasicSpec::disable)
                 .cors(Customizer.withDefaults())
                 .authorizeExchange(exchanges -> exchanges
-                        .pathMatchers("/v1/api/auth/**")
+                        .pathMatchers("/v1/api/auth/**", "/actuator/**")
                         .permitAll()
                         .anyExchange()
                         .authenticated()
