@@ -26,6 +26,8 @@ class WebSecurityConfig {
                 .cors(Customizer.withDefaults())
                 .authorizeExchange(
                         exchanges -> exchanges
+                                .pathMatchers("/actuator/**")
+                                .permitAll()
                                 .anyExchange()
                                 .authenticated()
                 )
