@@ -17,7 +17,7 @@ class AuthenticationController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("authenticate")
-    Mono<ResponseEntity<String>> authenticate(@RequestBody @Valid Mono<AuthenticationRequest> request) {
+    Mono<ResponseEntity<String>> authenticate(@RequestBody @Valid AuthenticationRequest request) {
 
         return this.authenticationService.authenticate(request)
                 .map(ResponseEntity::ok);

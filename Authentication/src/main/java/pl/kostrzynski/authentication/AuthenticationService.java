@@ -15,11 +15,10 @@ class AuthenticationService {
 
     private final ReactiveAuthenticationManager authenticationManager;
 
-    public Mono<String> authenticate(Mono<AuthenticationRequest> request) {
-        return request.flatMap(login ->
-                authenticationManager
-                        .authenticate(new UsernamePasswordAuthenticationToken(login.username(), login.password()))
-                        .map(auth -> jwtService.create(auth.getName()))
-        );
+    public Mono<String> authenticate(final AuthenticationRequest request) {
+
+        return authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(request.username(), request.password()))
+                .map(auth -> jwtService.create(auth.getName()));
     }
 }
