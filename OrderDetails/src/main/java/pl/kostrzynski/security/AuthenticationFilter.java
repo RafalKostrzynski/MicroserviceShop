@@ -26,10 +26,7 @@ class AuthenticationFilter implements WebFilter {
 
         final var bearerToken = exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
         String token = resolveToken(bearerToken);
-
-        if (!StringUtils.hasText(token)) {
-            return chain.filter(exchange);
-        }
+        if (!StringUtils.hasText(token)) return chain.filter(exchange);
 
         return webClientBuilder.build()
                 .post()
@@ -44,12 +41,14 @@ class AuthenticationFilter implements WebFilter {
                                         new UsernamePasswordAuthenticationToken(
                                                 user.username(),
                                                 token,
-                                                user.roles().stream().map(SimpleGrantedAuthority::new).toList()
+                                                user.roles()
+                                                        .stream()
+                                                        .map(SimpleGrantedAuthority::new)
+                                                        .toList()
                                         )
                                 )
                         )
-                )
-                .switchIfEmpty(chain.filter(exchange));
+                );
     }
 
     private String resolveToken(final String bearerToken) {

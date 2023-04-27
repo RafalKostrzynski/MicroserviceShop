@@ -2,10 +2,10 @@ server:
   port: 8080
   ssl:
     enabled: true
-    key-store: src/main/resources/keys/bootsecurity2.p12
+    key-store: src/main/resources/keys/shop.p12
     key-store-password: changeit
     key-store-type: PKCS12
-    keyAlias: shop
+    keyAlias: ugshop
 
 spring:
   application:
@@ -40,13 +40,13 @@ spring:
 eureka:
   instance:
     instance-id: ${spring.application.name}:${random.uuid}
-    hostname: localhost
     secure-port-enabled: true
     non-secure-port-enabled: false
+    preferIpAddress: true
   client:
     registerWithEureka: true
     serviceUrl:
-      defaultZone: https://admin:admin@localhost:8761/eureka
+      defaultZone: https://admin:admin@192.168.55.103:8761/eureka
 
 management:
   endpoint:

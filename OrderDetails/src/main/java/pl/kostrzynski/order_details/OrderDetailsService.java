@@ -37,21 +37,22 @@ class OrderDetailsService {
         final var webclient = this.webClientBuilder.build();
 
         return ReactiveSecurityContextHolder.getContext()
-                .map(e -> String.valueOf(e.getAuthentication().getCredentials()))
-                .flatMap(token ->
-                        Mono.zip(
-                                getCourierMono(orderDetailsRequest, webclient, token),
-                                getRegionMono(orderDetailsRequest, webclient, token),
-                                getPriceMono(orderDetailsRequest, webclient, token)
-                        )
-                ).map(tuple3 -> OrderDetails.builder()
-                        .shipmentCourier(tuple3.getT1())
-                        .shipmentRegion(tuple3.getT2())
-                        .totalPrice(
-                                tuple3.getT3()
-                                        .add(tuple3.getT1().getCourierMargin())
-                                        .add(tuple3.getT2().getShipmentMargin())
-                        ).build()
+                .flatMap(e -> {
+                    final var token = String.valueOf(e.getAuthentication().getCredentials());
+                    return Mono.zip(
+                            getCourierMono(orderDetailsRequest, webclient, token),
+                            getRegionMono(orderDetailsRequest, webclient, token),
+                            getPriceMono(orderDetailsRequest, webclient, token));
+                })
+                .map(tuple3 ->
+                        OrderDetails.builder()
+                                .shipmentCourier(tuple3.getT1())
+                                .shipmentRegion(tuple3.getT2())
+                                .totalPrice(
+                                        tuple3.getT3()
+                                                .add(tuple3.getT1().getCourierMargin())
+                                                .add(tuple3.getT2().getShipmentMargin())
+                                ).build()
                 );
     }
 
